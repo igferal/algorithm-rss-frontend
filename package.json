@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "antd": "^3.12.4",
     "apollo-client-preset": "^1.0.8",
+    "axios": "^0.18.0",
     "graphql": "^14.1.1",
     "graphql-tag": "^2.10.1",
     "react": "^16.7.0",
