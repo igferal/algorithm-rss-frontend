@@ -29,9 +29,12 @@ class SignUpComponent extends Component {
     alert(`${this.state.username}-${this.state.password}`);
 
     axios
-      .post("http://localhost:5000/login", {
+      .post("http://localhost:5000/signUp", {
         username: this.state.username,
-        password: this.state.password
+        password: this.state.password,
+        email: this.state.email,
+        name: this.state.name,
+        surname: this.state.surname
       })
       .then(response => {
         console.log(response.data);
