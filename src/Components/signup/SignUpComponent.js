@@ -2,14 +2,14 @@ import React, { Component } from "react";
 import { Input, Icon, Button } from "antd";
 import "./signUp.css";
 import axios from "axios";
-
 class SignUpComponent extends Component {
   state = {
     username: "",
     email: "",
     name: "",
     surname: "",
-    password: ""
+    password: "",
+    errorOccurred: false
   };
 
   constructor() {
@@ -26,8 +26,6 @@ class SignUpComponent extends Component {
   };
 
   sendForm() {
-    alert(`${this.state.username}-${this.state.password}`);
-
     axios
       .post("http://localhost:5000/signUp", {
         username: this.state.username,
@@ -37,12 +35,14 @@ class SignUpComponent extends Component {
         surname: this.state.surname
       })
       .then(response => {
-        console.log(response.data);
-      });
+        this.props.history.push("/");
+      })
+      .catch(err => console.log(err));
   }
 
   render() {
     console.log(this.props);
+
     return (
       <section className="form-container">
         <form action="">

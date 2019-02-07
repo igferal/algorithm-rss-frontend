@@ -2,12 +2,13 @@ import React, { Component } from "react";
 import { Input, Icon, Button } from "antd";
 import "./logincomponent.css";
 import axios from "axios";
-import { withRouter } from 'react-router-dom'
+import { Alert } from "antd";
 
 class LoginComponent extends Component {
   state = {
     username: "",
-    password: ""
+    password: "",
+    errorOccurred: false
   };
 
   constructor() {
@@ -24,24 +25,36 @@ class LoginComponent extends Component {
   };
 
   sendForm() {
-    alert(`${this.state.username}-${this.state.password}`);
-
     axios
       .post("http://localhost:5000/login", {
         username: this.state.username,
         password: this.state.password
       })
       .then(response => {
-        this.props.history.push('/signUp')
+        console.log(response)
+        //localStorage.setItem("token",)
+        this.props.history.push("/");
+      })
+      .catch(err => {
+        console.log(err);
+        this.setState({
+          errorOccurred: true
+        });
       });
   }
 
   render() {
-    
     return (
       <section className="form-container">
         <form action="">
+
           <h1>Iniciar sesión</h1>
+          <Alert
+            message="Error inciando sesion, prueba de nuevo"
+            type="error"
+            showIcon
+            className={this.state.errorOccurred ? "shown" : "hidden"}
+          />
           <Input
             placeholder="Nombre de usuario"
             prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
@@ -54,10 +67,11 @@ class LoginComponent extends Component {
             onChange={this.onChangePassword}
             value={this.state.password}
           />
-          
+
           <Button type="primary" onClick={this.sendForm} block>
             Login
           </Button>
+
         </form>
       </section>
     );

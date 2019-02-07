@@ -13,3 +13,11 @@ form{
     flex-direction: column;
     justify-content: space-between;
 }
+
+.hidden{
+  visibility: hidden; 
+}
+
+.shown{
+  visibility: visible;
+}
