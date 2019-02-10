@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-d
 import SignUpComponent from "./Components/signup/SignUpComponent";
 import LandingComponent from "./Components/landing/LandingComponent";
 import NavBarComponent from "./Components/navbar/NavBarComponent";
+import DashboardComponent from "./Components/dashboard/dashboard";
 
 class App extends Component {
   render() {
@@ -16,6 +17,7 @@ class App extends Component {
               <Route path="/" component={LandingComponent} exact={true} />
               <Route path="/signup" component={SignUpComponent} exact={true} />
               <Route path="/login" component={LoginComponent} exact={true} />
+              <Route path="/dashboard" component={DashboardComponent} exact={true} />
               <Redirect to="/" />
             </Switch>
           </div>

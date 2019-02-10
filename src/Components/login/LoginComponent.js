@@ -31,9 +31,8 @@ class LoginComponent extends Component {
         password: this.state.password
       })
       .then(response => {
-        console.log(response)
-        //localStorage.setItem("token",)
-        this.props.history.push("/");
+        localStorage.setItem("token", response.data.access_token);
+        this.props.history.push("/dashboard");
       })
       .catch(err => {
         console.log(err);
@@ -47,14 +46,8 @@ class LoginComponent extends Component {
     return (
       <section className="form-container">
         <form action="">
-
           <h1>Iniciar sesión</h1>
-          <Alert
-            message="Error inciando sesion, prueba de nuevo"
-            type="error"
-            showIcon
-            className={this.state.errorOccurred ? "shown" : "hidden"}
-          />
+          <Alert message="Error inciando sesion, prueba de nuevo" type="error" showIcon className={this.state.errorOccurred ? "shown" : "hidden"} />
           <Input
             placeholder="Nombre de usuario"
             prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
@@ -71,7 +64,6 @@ class LoginComponent extends Component {
           <Button type="primary" onClick={this.sendForm} block>
             Login
           </Button>
-
         </form>
       </section>
     );

@@ -1,0 +1,9 @@
+.img-fluid {
+  width: auto !important;
+  height: 400px;
+}
+
+.ant-card-cover {
+  display: flex;
+  justify-content: center;
+}
