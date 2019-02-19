@@ -5,6 +5,7 @@ import SignUpComponent from "./Components/signup/SignUpComponent";
 import LandingComponent from "./Components/landing/LandingComponent";
 import NavBarComponent from "./Components/navbar/NavBarComponent";
 import DashboardComponent from "./Components/dashboard/dashboard";
+import KnapSackComponent from "./Components/problems/knapback/knapsack";
 
 class App extends Component {
   render() {
@@ -18,6 +19,7 @@ class App extends Component {
               <Route path="/signup" component={SignUpComponent} exact={true} />
               <Route path="/login" component={LoginComponent} exact={true} />
               <Route path="/dashboard" component={DashboardComponent} exact={true} />
+              <Route path="/knapsack" component={KnapSackComponent} exact={true} />
               <Redirect to="/" />
             </Switch>
           </div>

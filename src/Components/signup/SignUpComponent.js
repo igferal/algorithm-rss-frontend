@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Input, Icon, Button } from "antd";
 import "./signUp.css";
-import axios from "axios";
+import customAxios from "../Utils/customHttp";
 class SignUpComponent extends Component {
   state = {
     username: "",
@@ -26,7 +26,7 @@ class SignUpComponent extends Component {
   };
 
   sendForm() {
-    axios
+    customAxios
       .post("http://localhost:5000/signUp", {
         username: this.state.username,
         password: this.state.password,

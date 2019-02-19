@@ -1,0 +1,13 @@
+.main-container {
+  flex-direction: column;
+  width: 100vw;
+  height: 90vh;
+  justify-content: center;
+  align-self: center;
+}
+
+.buttons{
+    display: inline-flex;
+    justify-content: space-between;
+    width: 80%;
+}

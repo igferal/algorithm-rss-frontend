@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import "./dashboard.css";
 import { Row, Col } from "antd";
 import { Card, Icon, Avatar } from "antd";
-
+import customAxios from "../Utils/customHttp";
 const { Meta } = Card;
 
 class DashboardComponent extends Component {
@@ -22,11 +22,18 @@ class DashboardComponent extends Component {
                   <Icon type="read" />
                   &nbsp;Apuntes
                 </span>,
-                <span>
+                <span
+                  onClick={() => {
+                    customAxios.get("http://localhost:5000/secret").then(res => console.log(res)).catch(err => console.log(err));
+                  }}>
                   <Icon type="bar-chart" />
                   &nbsp;Rankings
                 </span>,
-                <span>
+                <span
+                  onClick={() => {
+                    this.props.history.push("/knapsack");
+                  }}
+                >
                   <Icon type="experiment" />
                   &nbsp;Practicar
                 </span>

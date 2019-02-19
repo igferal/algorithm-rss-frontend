@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Input, Icon, Button } from "antd";
 import "./logincomponent.css";
-import axios from "axios";
+import customAxios from "../Utils/customHttp";
 import { Alert } from "antd";
 
 class LoginComponent extends Component {
@@ -25,12 +25,13 @@ class LoginComponent extends Component {
   };
 
   sendForm() {
-    axios
+    customAxios
       .post("http://localhost:5000/login", {
         username: this.state.username,
         password: this.state.password
       })
       .then(response => {
+        console.log(response);
         localStorage.setItem("token", response.data.access_token);
         this.props.history.push("/dashboard");
       })
