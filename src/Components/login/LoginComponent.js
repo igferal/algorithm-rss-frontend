@@ -3,7 +3,9 @@ import { Input, Icon, Button } from "antd";
 import "./logincomponent.css";
 import customAxios from "../Utils/customHttp";
 import { Alert } from "antd";
-
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { addUser } from "../../actions";
 class LoginComponent extends Component {
   state = {
     username: "",
@@ -14,6 +16,9 @@ class LoginComponent extends Component {
   constructor() {
     super();
     this.sendForm = this.sendForm.bind(this);
+  }
+  componentDidMount() {
+    console.log(this.props);
   }
 
   onChangeUserName = e => {
@@ -32,7 +37,11 @@ class LoginComponent extends Component {
       })
       .then(response => {
         console.log(response);
+        this.props.dispatch(
+          addUser({ user: response.data.user, access_token: response.data.access_token, refresh_token: response.data.refresh_token })
+        );
         localStorage.setItem("token", response.data.access_token);
+
         this.props.history.push("/dashboard");
       })
       .catch(err => {
@@ -71,4 +80,8 @@ class LoginComponent extends Component {
   }
 }
 
-export default LoginComponent;
+const mapStateToProps = state => {
+  return { state: state.user };
+};
+
+export default withRouter(connect(mapStateToProps)(LoginComponent));

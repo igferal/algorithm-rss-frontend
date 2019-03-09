@@ -1,11 +1,14 @@
 import React from "react";
 import { Menu, Icon } from "antd";
 import { Link } from "react-router-dom";
+import { logoutUser } from "../../actions";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 import "./navbar.css";
 
 class NavBarComponent extends React.Component {
   state = {
-    logged: localStorage.getItem("toke") !== undefined
+    user: {}
   };
 
   handleClick = e => {
@@ -14,8 +17,19 @@ class NavBarComponent extends React.Component {
     });
   };
 
+  logout = () => {
+    this.setState({ user: {} });
+    this.props.dispatch(logoutUser());
+    console.log(this.state)
+  };
+
+  componentDidMount() {
+    console.log(this.props);
+  }
+  
+
   render() {
-    return localStorage.getItem("token") !== null ? (
+    return this.props.state.user !== undefined ? (
       <Menu className="header" onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal">
         <Menu.Item className="main" key="home">
           <Link to="/">
@@ -30,12 +44,7 @@ class NavBarComponent extends React.Component {
           </Link>
         </Menu.Item>
 
-        <Menu.Item
-          key="logout"
-          onClick={() => {
-            localStorage.removeItem("token");
-          }}
-        >
+        <Menu.Item key="logout" onClick={this.logout}>
           <Link to="/">
             <Icon type="user" />
             Logout
@@ -66,4 +75,7 @@ class NavBarComponent extends React.Component {
     );
   }
 }
-export default NavBarComponent;
+const mapStateToProps = state => {
+  return { state: state.user };
+};
+export default withRouter(connect(mapStateToProps)(NavBarComponent));

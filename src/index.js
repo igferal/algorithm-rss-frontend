@@ -5,9 +5,8 @@ import { ApolloClient } from "apollo-client";
 import { HttpLink } from "apollo-link-http";
 import { InMemoryCache } from "apollo-cache-inmemory";
 import * as serviceWorker from "./serviceWorker";
-
 import App from "./App";
-
+import store from "./store";
 import "./index.css";
 
 const httpLink = {
@@ -19,11 +18,7 @@ const client = new ApolloClient({
   cache: new InMemoryCache()
 });
 
-const Root = () => (
-  <ApolloProvider client={client}>
-    <App />
-  </ApolloProvider>
-);
+const Root = () => <App store={store} />;
 
 ReactDOM.render(<Root />, document.getElementById("root"));
 // If you want your app to work offline and load faster, you can change
