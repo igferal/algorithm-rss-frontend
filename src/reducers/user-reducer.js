@@ -1,11 +1,9 @@
 import { ADD_USER, LOGOUT_USER } from "../constants";
 
 const userInitialState = {
-  user: {
-    access_token: undefined,
-    refres_token: undefined,
-    user: {}
-  }
+  user: {},
+  access_token: undefined,
+  refres_token: undefined
 };
 
 export default function user(state = userInitialState, action) {

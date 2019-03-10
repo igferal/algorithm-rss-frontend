@@ -20,16 +20,13 @@ class NavBarComponent extends React.Component {
   logout = () => {
     this.setState({ user: {} });
     this.props.dispatch(logoutUser());
-    console.log(this.state)
+    console.log(this.state);
   };
 
-  componentDidMount() {
-    console.log(this.props);
-  }
-  
-
   render() {
-    return this.props.state.user !== undefined ? (
+    let isLogged = this.props.state.access_token !== undefined;
+
+    return isLogged ? (
       <Menu className="header" onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal">
         <Menu.Item className="main" key="home">
           <Link to="/">

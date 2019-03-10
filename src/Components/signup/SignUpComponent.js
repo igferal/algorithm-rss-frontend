@@ -2,6 +2,11 @@ import React, { Component } from "react";
 import { Input, Icon, Button } from "antd";
 import "./signUp.css";
 import customAxios from "../Utils/customHttp";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { addUser } from "../../actions";
+import { notify } from "reapop";
+
 class SignUpComponent extends Component {
   state = {
     username: "",
@@ -25,7 +30,27 @@ class SignUpComponent extends Component {
     this.setState({ password: e.target.value });
   };
 
+  showError = message => {
+    this.props.dispatch(
+      notify({
+        title: "RSA",
+        message: message,
+        status: "error",
+        dismissible: true,
+        dismissAfter: 3000
+      })
+    );
+  };
+
   sendForm() {
+    const re = /[a-z0-9._%+!$&*=^|~#%'`?{}/-]+@([a-z0-9-]+\.){1,}([a-z]{2,16})/
+    ;
+    if (!re.test(this.state.email.toLowerCase())) {
+      this.showError("Email Incorrecto");
+      this.setState({ email: "" });
+      return;
+    }
+
     customAxios
       .post("http://localhost:5000/signUp", {
         username: this.state.username,
@@ -35,9 +60,20 @@ class SignUpComponent extends Component {
         surname: this.state.surname
       })
       .then(response => {
-        this.props.history.push("/");
+        console.log(response);
+        if (response.data.user) {
+          this.props.dispatch(
+            addUser({ user: response.data.user, access_token: response.data.access_token, refresh_token: response.data.refresh_token })
+          );
+          this.props.history.push("/dashboard");
+        } else {
+          this.showError("Error creando usuario, compruebe sus datos");
+        }
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        console.error(err);
+        this.showError("Error creando usuario, compruebe sus datos");
+      });
   }
 
   render() {
@@ -89,4 +125,8 @@ class SignUpComponent extends Component {
   }
 }
 
-export default SignUpComponent;
+const mapStateToProps = state => {
+  return { state: state.user };
+};
+
+export default withRouter(connect(mapStateToProps)(SignUpComponent));

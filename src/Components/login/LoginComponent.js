@@ -2,23 +2,19 @@ import React, { Component } from "react";
 import { Input, Icon, Button } from "antd";
 import "./logincomponent.css";
 import customAxios from "../Utils/customHttp";
-import { Alert } from "antd";
 import { connect } from "react-redux";
+import { notify } from "reapop";
 import { withRouter } from "react-router-dom";
 import { addUser } from "../../actions";
 class LoginComponent extends Component {
   state = {
     username: "",
-    password: "",
-    errorOccurred: false
+    password: ""
   };
 
   constructor() {
     super();
     this.sendForm = this.sendForm.bind(this);
-  }
-  componentDidMount() {
-    console.log(this.props);
   }
 
   onChangeUserName = e => {
@@ -29,6 +25,18 @@ class LoginComponent extends Component {
     this.setState({ password: e.target.value });
   };
 
+  showError = () => {
+    this.props.dispatch(
+      notify({
+        title: "RSA",
+        message: "Error al inciar sesión, compruebe sus credenciales",
+        status: "error",
+        dismissible: true,
+        dismissAfter: 3000
+      })
+    );
+  };
+
   sendForm() {
     customAxios
       .post("http://localhost:5000/login", {
@@ -36,19 +44,18 @@ class LoginComponent extends Component {
         password: this.state.password
       })
       .then(response => {
-        console.log(response);
-        this.props.dispatch(
-          addUser({ user: response.data.user, access_token: response.data.access_token, refresh_token: response.data.refresh_token })
-        );
-        localStorage.setItem("token", response.data.access_token);
-
-        this.props.history.push("/dashboard");
+        if (response.data.user) {
+          this.props.dispatch(
+            addUser({ user: response.data.user, access_token: response.data.access_token, refresh_token: response.data.refresh_token })
+          );
+          this.props.history.push("/dashboard");
+        } else {
+          this.showError();
+        }
       })
       .catch(err => {
         console.log(err);
-        this.setState({
-          errorOccurred: true
-        });
+        this.showError();
       });
   }
 
@@ -57,7 +64,6 @@ class LoginComponent extends Component {
       <section className="form-container">
         <form action="">
           <h1>Iniciar sesión</h1>
-          <Alert message="Error inciando sesion, prueba de nuevo" type="error" showIcon className={this.state.errorOccurred ? "shown" : "hidden"} />
           <Input
             placeholder="Nombre de usuario"
             prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
