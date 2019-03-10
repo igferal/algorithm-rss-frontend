@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Input, Icon, Button } from "antd";
+import { Input, Icon, Button, Form } from "antd";
 import "./signUp.css";
 import customAxios from "../Utils/customHttp";
 import { connect } from "react-redux";
@@ -14,7 +14,8 @@ class SignUpComponent extends Component {
     name: "",
     surname: "",
     password: "",
-    errorOccurred: false
+    errorOccurred: false,
+    triedToSend: false
   };
 
   constructor() {
@@ -42,12 +43,19 @@ class SignUpComponent extends Component {
     );
   };
 
+  checkForm = () => {
+    this.setState({ triedToSend: true });
+    return this.checkEmail() && this.state.name !== "" && this.state.username !== "" && this.state.surname !== "" && this.state.password !== "";
+  };
+
+  checkEmail = () => {
+    const re = /[a-z0-9._%+!$&*=^|~#%'`?{}/-]+@([a-z0-9-]+\.){1,}([a-z]{2,16})/;
+    return re.test(this.state.email.toLowerCase());
+  };
+
   sendForm() {
-    const re = /[a-z0-9._%+!$&*=^|~#%'`?{}/-]+@([a-z0-9-]+\.){1,}([a-z]{2,16})/
-    ;
-    if (!re.test(this.state.email.toLowerCase())) {
-      this.showError("Email Incorrecto");
-      this.setState({ email: "" });
+    if (!this.checkForm()) {
+      this.showError("Complete los campos que generan error");
       return;
     }
 
@@ -83,39 +91,49 @@ class SignUpComponent extends Component {
       <section className="form-container">
         <form action="">
           <h1>Iniciar sesión</h1>
-          <Input
-            placeholder="Nombre de usuario"
-            prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
-            onChange={this.onChangeUserName}
-            value={this.state.username}
-          />
-          <Input
-            placeholder="Email"
-            prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
-            onChange={e => this.setState({ email: e.target.value })}
-            value={this.state.email}
-          />
-
-          <Input
-            placeholder="Nombre"
-            prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
-            onChange={e => this.setState({ name: e.target.value })}
-            value={this.state.name}
-          />
-
-          <Input
-            placeholder="Apellido"
-            prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
-            onChange={e => this.setState({ surname: e.target.value })}
-            value={this.state.surname}
-          />
-
-          <Input.Password
-            prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
-            placeholder="Algo que no sea 123..."
-            onChange={this.onChangePassword}
-            value={this.state.password}
-          />
+          <Form.Item
+            hasFeedback={this.state.triedToSend}
+            validateStatus={this.state.username !== "" || !this.state.triedToSend ? "success" : "error"}
+          >
+            <Input
+              placeholder="Nombre de usuario"
+              prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
+              onChange={this.onChangeUserName}
+              value={this.state.username}
+            />
+          </Form.Item>
+          <Form.Item hasFeedback={this.state.triedToSend} validateStatus={this.checkEmail() || !this.state.triedToSend ? "success" : "error"}>
+            <Input
+              placeholder="Email"
+              prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
+              onChange={e => this.setState({ email: e.target.value })}
+              value={this.state.email}
+            />
+          </Form.Item>
+          <Form.Item hasFeedback={this.state.triedToSend} validateStatus={this.state.name !== "" || !this.state.triedToSend ? "success" : "error"}>
+            <Input
+              placeholder="Nombre"
+              prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
+              onChange={e => this.setState({ name: e.target.value })}
+              value={this.state.name}
+            />
+          </Form.Item>
+          <Form.Item hasFeedback={this.state.triedToSend} validateStatus={this.state.surname !== "" || !this.state.triedToSend ? "success" : "error"}>
+            <Input
+              placeholder="Apellido"
+              prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
+              onChange={e => this.setState({ surname: e.target.value })}
+              value={this.state.surname}
+            />
+          </Form.Item>
+          <Form.Item validateStatus={this.state.password !== "" || !this.state.triedToSend ? "success" : "error"}>
+            <Input.Password
+              prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
+              placeholder="Algo que no sea 123..."
+              onChange={this.onChangePassword}
+              value={this.state.password}
+            />
+          </Form.Item>
           <Button type="primary" onClick={this.sendForm} block>
             Login
           </Button>

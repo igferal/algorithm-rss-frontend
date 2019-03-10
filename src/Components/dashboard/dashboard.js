@@ -1,11 +1,17 @@
-import React, { Component } from "react";
+import React from "react";
+import AuthGuardedComponent from "../AuthGuardedComponent";
 import "./dashboard.css";
 import { Row, Col } from "antd";
 import { Card, Icon, Avatar } from "antd";
-import customAxios from "../Utils/customHttp";
+import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
 const { Meta } = Card;
 
-class DashboardComponent extends Component {
+class DashboardComponent extends AuthGuardedComponent {
+  componentDidMount() {
+    super.componentDidMount();
+  }
+
   render() {
     return (
       <div>
@@ -24,8 +30,12 @@ class DashboardComponent extends Component {
                 </span>,
                 <span
                   onClick={() => {
-                    customAxios.get("http://localhost:5000/secret").then(res => console.log(res)).catch(err => console.log(err));
-                  }}>
+                    this.customAxios
+                      .get("http://localhost:5000/secret")
+                      .then(res => console.log(res))
+                      .catch(err => console.log(err));
+                  }}
+                >
                   <Icon type="bar-chart" />
                   &nbsp;Rankings
                 </span>,
@@ -79,4 +89,8 @@ class DashboardComponent extends Component {
   }
 }
 
-export default DashboardComponent;
+const mapStateToProps = state => {
+  return { state: state.user };
+};
+
+export default withRouter(connect(mapStateToProps)(DashboardComponent));
