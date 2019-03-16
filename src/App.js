@@ -5,7 +5,7 @@ import SignUpComponent from "./Components/signup/SignUpComponent";
 import LandingComponent from "./Components/landing/LandingComponent";
 import NavBarComponent from "./Components/navbar/NavBarComponent";
 import DashboardComponent from "./Components/dashboard/dashboard";
-import KnapSackComponent from "./Components/problems/knapback/knapsack";
+import KnapSackComponent from "./Components/problems/knapsack/knapsack";
 import { Provider } from "react-redux";
 import PropTypes from "prop-types";
 import NotificationsSystem from "reapop";
