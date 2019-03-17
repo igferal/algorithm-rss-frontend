@@ -6,6 +6,9 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import "./navbar.css";
 
+const MenuItemGroup = Menu.ItemGroup;
+const SubMenu = Menu.SubMenu;
+
 class NavBarComponent extends React.Component {
   state = {
     user: {}
@@ -40,13 +43,37 @@ class NavBarComponent extends React.Component {
             Dashboard
           </Link>
         </Menu.Item>
-
-        <Menu.Item key="logout" onClick={this.logout}>
-          <Link to="/">
-            <Icon type="user" />
-            Logout
-          </Link>
-        </Menu.Item>
+        <SubMenu
+          title={
+            <span className="submenu-title-wrapper">
+              <Icon type="user" />
+              {`${this.props.state.user.name} - ${this.props.state.user.surname}`}
+            </span>
+          }
+        >
+          <MenuItemGroup title="Amigos">
+            <Menu.Item key="peticiones">
+              <Icon type="usergroup-add" /> Peticiones de amistad
+            </Menu.Item>
+            <Menu.Item key="amigos">
+              <Icon type="team" /> Amigos
+            </Menu.Item>
+          </MenuItemGroup>
+          <MenuItemGroup title="Otros">
+            <Menu.Item key="rankings">
+              <Icon type="line-chart" /> Rankings
+            </Menu.Item>
+            <Menu.Item key="profile">
+              <Icon type="user" /> Editar Perfil
+            </Menu.Item>
+            <Menu.Item key="logout" onClick={this.logout}>
+              <Link to="/">
+                <Icon type="disconnect" />
+                Logout
+              </Link>
+            </Menu.Item>
+          </MenuItemGroup>
+        </SubMenu>
       </Menu>
     ) : (
       <Menu className="header" onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal">

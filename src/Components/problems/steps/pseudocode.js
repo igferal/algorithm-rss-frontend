@@ -23,9 +23,11 @@ export default class PseudocodeStep extends Component {
                    knapSack(W , wt , val , n-1))`;
 
     return (
-      <SyntaxHighlighter language="python" style={docco}>
-        {codeString}
-      </SyntaxHighlighter>
+      <div className="pseudocode">
+        <SyntaxHighlighter language="python" style={docco}>
+          {codeString}
+        </SyntaxHighlighter>
+      </div>
     );
   }
 }

@@ -14,7 +14,7 @@ export default class InfoStep extends Component {
           nihil commodi blanditiis odio id sunt soluta suscipit! Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur modi soluta
           dolores inventore nisi voluptate autem ab. Consequuntur eaque odit laborum ratione iure cum quia nisi. Eveniet asperiores impedit quasi.
         </p>
-        <img width="300px" height="300px" src="https://i.ebayimg.com/images/g/qQUAAOSwoRpcWwXg/s-l1600.jpg" />
+        <img alt="Mochila" src="https://images.vexels.com/media/users/3/129275/isolated/preview/f8f0cb372e621a41d29b3d52fee2d326-mochila-plana-icono-by-vexels.png" />
       </div>
     );
   }

@@ -12,6 +12,8 @@ import NotificationsSystem from "reapop";
 import theme from "reapop-theme-wybo";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistor } from "./store";
+import DefaultProblem from "./Components/problems/default-problem";
+
 const App = ({ store }) => (
   <Provider store={store}>
     <PersistGate loading={null} persistor={persistor}>
@@ -24,7 +26,7 @@ const App = ({ store }) => (
             <Route path="/signup" component={SignUpComponent} exact={true} />
             <Route path="/login" component={LoginComponent} exact={true} />
             <Route path="/dashboard" component={DashboardComponent} exact={true} />
-            <Route path="/knapsack" component={KnapSackComponent} exact={true} />
+            <Route path="/knapsack" component={() => <DefaultProblem game={KnapSackComponent} />} exact={true} />
             <Redirect to="/" />
           </Switch>
         </div>
