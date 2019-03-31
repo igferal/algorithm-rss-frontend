@@ -1,9 +1,11 @@
 import React from "react";
 import { Menu, Icon } from "antd";
 import { Link } from "react-router-dom";
-import { logoutUser } from "../../actions";
+import { logoutUser, removeExercises } from "../../actions";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
+import { getExercises } from "../../actions";
+import customAxios from "axios";
 import "./navbar.css";
 
 const MenuItemGroup = Menu.ItemGroup;
@@ -23,11 +25,26 @@ class NavBarComponent extends React.Component {
   logout = () => {
     this.setState({ user: {} });
     this.props.dispatch(logoutUser());
+    this.props.dispatch(removeExercises());
     console.log(this.state);
+  };
+
+  fillRedux = () => {
+    customAxios.defaults.headers.common = { Authorization: `Bearer ${this.props.state.access_token}` };
+    customAxios
+      .get("http://localhost:5000/exercises")
+      .then(res => {
+        this.props.dispatch(getExercises(res.data.exercises));
+      })
+      .catch(err => console.log(err));
   };
 
   render() {
     let isLogged = this.props.state.access_token !== undefined;
+
+    if (isLogged) {
+      this.fillRedux();
+    }
 
     return isLogged ? (
       <Menu className="header" onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal">

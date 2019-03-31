@@ -4,18 +4,17 @@ import { Button } from "antd";
 import { Wizard, Step, Controls } from "react-losen";
 import PseudocodeStep from "./steps/pseudocode";
 import InfoStep from "./steps/info";
-import HeuristicStep from "./steps/heuristics";
+import ReactStars from "react-stars";
+import HeuristicStep from "./steps/heuristics"
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import "./problems.css"
+import "./problems.css";
 class DefaultProblem extends AuthGuardedComponent {
   componentDidMount() {
     super.componentDidMount();
-    console.log(this.props);
   }
 
   render() {
-    const game = () => this.props.game.render;
     return (
       <section className="main-container">
         <h1>Problema de La Mochila</h1>
@@ -23,23 +22,22 @@ class DefaultProblem extends AuthGuardedComponent {
           render={() => (
             <>
               <Step name="Info">
-                <InfoStep />
+                <InfoStep props={this.props.location.state.exercise} />
               </Step>
               <Step name="heuristics">
-                <HeuristicStep />
+                <HeuristicStep props={this.props.location.state.exercise.heuristics} />
               </Step>
               <Step name="Pseudocode">
-                <PseudocodeStep />
+                <PseudocodeStep props={this.props.location.state.exercise} />
               </Step>
               <Step name="Game">{this.props.game}</Step>
-
               <Controls
                 render={(onNext, onPrevious, isFirstStep) => (
                   <div className="buttons">
                     <Button onClick={onPrevious} disabled={isFirstStep}>
-                      Previous
+                      Previo
                     </Button>
-                    <Button onClick={onNext}>Next</Button>
+                    <Button onClick={onNext}>Siguiente</Button>
                   </div>
                 )}
               />

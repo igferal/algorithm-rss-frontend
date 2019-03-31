@@ -26,7 +26,7 @@ const App = ({ store }) => (
             <Route path="/signup" component={SignUpComponent} exact={true} />
             <Route path="/login" component={LoginComponent} exact={true} />
             <Route path="/dashboard" component={DashboardComponent} exact={true} />
-            <Route path="/knapsack" component={() => <DefaultProblem game={KnapSackComponent} />} exact={true} />
+            <Route path="/resolveExercise" component={() => <DefaultProblem game={KnapSackComponent} />} exact={true} />
             <Redirect to="/" />
           </Switch>
         </div>
