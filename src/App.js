@@ -24,6 +24,7 @@ const App = ({ store }) => (
           <Switch>
             <Route path="/" component={LandingComponent} exact={true} />
             <Route path="/signup" component={SignUpComponent} exact={true} />
+            <Route path="/profile" component={SignUpComponent} exact={true} />
             <Route path="/login" component={LoginComponent} exact={true} />
             <Route path="/dashboard" component={DashboardComponent} exact={true} />
             <Route path="/resolveExercise" component={() => <DefaultProblem game={KnapSackComponent} />} exact={true} />

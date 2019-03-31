@@ -42,10 +42,14 @@
 .heuristics {
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-between;
   height: 80vh;
   align-items: center;
   width: 80%;
+}
+
+.heuristics h1 {
+  text-align: left;
 }
 
 .pseudocode {

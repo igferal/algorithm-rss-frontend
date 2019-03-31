@@ -14,9 +14,27 @@ class SignUpComponent extends Component {
     name: "",
     surname: "",
     password: "",
+    currentPassword: "",
+    newPassword: "",
     errorOccurred: false,
-    triedToSend: false
+    triedToSend: false,
+    label: "Crear usuario"
   };
+
+  componentDidMount() {
+    let isLogged = this.props.state.access_token !== undefined;
+
+    if (isLogged) {
+      let user = this.props.state.user;
+      this.setState({
+        username: user.username,
+        email: user.email,
+        surname: user.surname,
+        name: user.name,
+        label: "Editar Usuario"
+      });
+    }
+  }
 
   constructor() {
     super();
@@ -45,7 +63,16 @@ class SignUpComponent extends Component {
 
   checkForm = () => {
     this.setState({ triedToSend: true });
-    return this.checkEmail() && this.state.name !== "" && this.state.username !== "" && this.state.surname !== "" && this.state.password !== "";
+
+    const isLogged = this.props.state.access_token !== undefined;
+    let passwordCorrect = true;
+    if (isLogged) {
+      passwordCorrect = true;
+    } else {
+      passwordCorrect = this.state.password !== "";
+    }
+
+    return this.checkEmail() && this.state.name !== "" && this.state.username !== "" && this.state.surname !== "" && passwordCorrect;
   };
 
   checkEmail = () => {
@@ -53,12 +80,7 @@ class SignUpComponent extends Component {
     return re.test(this.state.email.toLowerCase());
   };
 
-  sendForm() {
-    if (!this.checkForm()) {
-      this.showError("Complete los campos que generan error");
-      return;
-    }
-
+  signUp = () => {
     customAxios
       .post("http://localhost:5000/signUp", {
         username: this.state.username,
@@ -82,7 +104,66 @@ class SignUpComponent extends Component {
         console.error(err);
         this.showError("Error creando usuario, compruebe sus datos");
       });
+  };
+
+  updateUser = () => {
+    customAxios
+      .post("http://localhost:5000/updateUser", {
+        username: this.state.username,
+        password: this.state.currentPassword,
+        newPassword: this.state.newPassword,
+        email: this.state.email,
+        name: this.state.name,
+        surname: this.state.surname
+      })
+      .then(response => {
+        console.log(response);
+        if (response.data.user) {
+          this.props.dispatch(
+            addUser({ user: response.data.user, access_token: response.data.access_token, refresh_token: response.data.refresh_token })
+          );
+          this.props.dispatch(
+            notify({
+              title: "RSA",
+              message: "Usuario actualizado correctamente",
+              status: "sucess",
+              dismissible: true,
+              dismissAfter: 3000
+            })
+          );
+        } else {
+          this.showError(response.data.message);
+        }
+      })
+      .catch(err => {
+        console.error(err);
+        this.showError("Error creando usuario, compruebe sus datos");
+      });
+  };
+
+  sendForm() {
+    if (!this.checkForm()) {
+      this.showError("Complete los campos que generan error");
+      return;
+    }
+    let isLogged = this.props.state.access_token !== undefined;
+
+    if (isLogged) {
+      this.updateUser();
+    } else {
+      this.signUp();
+    }
   }
+
+  validatePassword = () => {
+    let isLogged = this.props.state.access_token !== undefined;
+
+    if (isLogged) {
+      return "success";
+    } else {
+      return this.state.password !== "" || !this.state.triedToSend ? "success" : "error";
+    }
+  };
 
   render() {
     console.log(this.props);
@@ -90,18 +171,22 @@ class SignUpComponent extends Component {
     return (
       <section className="form-container">
         <form action="">
-          <h1>Iniciar sesión</h1>
-          <Form.Item
-            hasFeedback={this.state.triedToSend}
-            validateStatus={this.state.username !== "" || !this.state.triedToSend ? "success" : "error"}
-          >
-            <Input
-              placeholder="Nombre de usuario"
-              prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
-              onChange={this.onChangeUserName}
-              value={this.state.username}
-            />
-          </Form.Item>
+          <h1>{this.state.label}</h1>
+          {this.props.state.access_token === undefined ? (
+            <Form.Item
+              hasFeedback={this.state.triedToSend}
+              validateStatus={this.state.username !== "" || !this.state.triedToSend ? "success" : "error"}
+            >
+              <Input
+                placeholder="Nombre de usuario"
+                prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
+                onChange={this.onChangeUserName}
+                value={this.state.username}
+              />
+            </Form.Item>
+          ) : (
+            ""
+          )}
           <Form.Item hasFeedback={this.state.triedToSend} validateStatus={this.checkEmail() || !this.state.triedToSend ? "success" : "error"}>
             <Input
               placeholder="Email"
@@ -126,16 +211,37 @@ class SignUpComponent extends Component {
               value={this.state.surname}
             />
           </Form.Item>
-          <Form.Item validateStatus={this.state.password !== "" || !this.state.triedToSend ? "success" : "error"}>
-            <Input.Password
-              prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
-              placeholder="Algo que no sea 123..."
-              onChange={this.onChangePassword}
-              value={this.state.password}
-            />
-          </Form.Item>
+          {this.props.state.access_token === undefined ? (
+            <Form.Item validateStatus={this.validatePassword}>
+              <Input.Password
+                prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
+                placeholder="Algo que no sea 123..."
+                onChange={this.onChangePassword}
+                value={this.state.password}
+              />
+            </Form.Item>
+          ) : (
+            <>
+              <Form.Item>
+                <Input.Password
+                  prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
+                  placeholder="Contraseña Actual"
+                  onChange={e => this.setState({ currentPassword: e.target.value })}
+                  value={this.state.currentPassword}
+                />
+              </Form.Item>
+              <Form.Item>
+                <Input.Password
+                  prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
+                  placeholder="Nueva Contraseña"
+                  onChange={e => this.setState({ newPassword: e.target.value })}
+                  value={this.state.newPassword}
+                />
+              </Form.Item>
+            </>
+          )}
           <Button type="primary" onClick={this.sendForm} block>
-            Login
+            {this.state.label}
           </Button>
         </form>
       </section>

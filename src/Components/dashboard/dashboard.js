@@ -23,37 +23,37 @@ class DashboardComponent extends AuthGuardedComponent {
         {Object.values(this.props.exercises).map(exercise => {
           return (
             <Row key={exercise.id}>
-              <Col span={2} />
-              <Col span={9} />
-              <Card
-                cover={<img className="img-fluid" alt="Mochila" src={exercise.image} />}
-                actions={[
-                  <span>
-                    <Icon type="read" />
-                    &nbsp;Apuntes
-                  </span>,
-                  <span onClick={() => {}}>
-                    <Icon type="bar-chart" />
-                    &nbsp;Rankings
-                  </span>,
-                  <span
-                    onClick={() => {
-                      this.props.history.push("/resolveExercise", { exercise: exercise });
-                    }}
-                  >
-                    <Icon type="experiment" />
-                    &nbsp;Practicar
-                  </span>
-                ]}
-              >
-                <Meta
-                  avatar={<Avatar src="https://static.thenounproject.com/png/74649-200.png" />}
-                  title={exercise.name}
-                  description={exercise.subtitle}
-                />
-              </Card>
-              <Col span={2} />
-              <Col span={9} />
+              <Col className="gutter-row" span={6} />
+              <Col className="gutter-row" span={12}>
+                <Card
+                  cover={<img className="img-fluid" alt="Mochila" src={exercise.image} />}
+                  actions={[
+                    <span>
+                      <Icon type="read" />
+                      &nbsp;Apuntes
+                    </span>,
+                    <span onClick={() => {}}>
+                      <Icon type="bar-chart" />
+                      &nbsp;Rankings
+                    </span>,
+                    <span
+                      onClick={() => {
+                        this.props.history.push("/resolveExercise", { exercise: exercise });
+                      }}
+                    >
+                      <Icon type="experiment" />
+                      &nbsp;Practicar
+                    </span>
+                  ]}
+                >
+                  <Meta
+                    avatar={<Avatar src="https://static.thenounproject.com/png/74649-200.png" />}
+                    title={exercise.name}
+                    description={exercise.subtitle}
+                  />
+                </Card>
+              </Col>
+              <Col span={6} />
             </Row>
           );
         })}

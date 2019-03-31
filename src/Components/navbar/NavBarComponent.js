@@ -81,7 +81,9 @@ class NavBarComponent extends React.Component {
               <Icon type="line-chart" /> Rankings
             </Menu.Item>
             <Menu.Item key="profile">
-              <Icon type="user" /> Editar Perfil
+              <Link to="/profile">
+                <Icon type="user" /> Editar Perfil
+              </Link>
             </Menu.Item>
             <Menu.Item key="logout" onClick={this.logout}>
               <Link to="/">

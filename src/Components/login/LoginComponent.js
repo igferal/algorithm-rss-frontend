@@ -12,6 +12,13 @@ class LoginComponent extends Component {
     password: ""
   };
 
+  componentDidMount() {
+    let isLogged = this.props.state.access_token !== undefined;
+    if (isLogged) {
+      this.props.history.push("/dashboard");
+    }
+  }
+
   constructor() {
     super();
     this.sendForm = this.sendForm.bind(this);
