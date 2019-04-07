@@ -10,7 +10,7 @@ const HeuristicStep = ({ props }) => {
       <div className="options">
         {props.map(heuristic => {
           return (
-            <div className="heuristic">
+            <div className="heuristic" key={heuristic.id}>
               <h1>{heuristic.description}</h1> <ReactStars value={heuristic.rate} count={5} size={24} color2={"#ffd700"} />
             </div>
           );

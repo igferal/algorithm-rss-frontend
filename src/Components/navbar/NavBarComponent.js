@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { logoutUser, removeExercises } from "../../actions";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { getExercises } from "../../actions";
+import { getExercises, getUsers } from "../../actions";
 import customAxios from "axios";
 import "./navbar.css";
 
@@ -35,6 +35,12 @@ class NavBarComponent extends React.Component {
       .get("http://localhost:5000/exercises")
       .then(res => {
         this.props.dispatch(getExercises(res.data.exercises));
+      })
+      .catch(err => console.log(err));
+    customAxios
+      .get("http://localhost:5000/users")
+      .then(res => {
+        this.props.dispatch(getUsers(res.data.users));
       })
       .catch(err => console.log(err));
   };
@@ -73,7 +79,9 @@ class NavBarComponent extends React.Component {
               <Icon type="usergroup-add" /> Peticiones de amistad
             </Menu.Item>
             <Menu.Item key="amigos">
-              <Icon type="team" /> Amigos
+              <Link to="/friends">
+                <Icon type="team" /> Amigos
+              </Link>
             </Menu.Item>
           </MenuItemGroup>
           <MenuItemGroup title="Otros">

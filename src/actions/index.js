@@ -1,4 +1,4 @@
-import { ADD_USER, LOGOUT_USER, ADD_EXERCISES,REMOVE_EXERCISES } from "../constants";
+import { ADD_USER, LOGOUT_USER, ADD_EXERCISES,REMOVE_EXERCISES ,ADD_USERS} from "../constants";
 
 export function addUser(payload) {
   return { type: ADD_USER, payload };
@@ -15,3 +15,10 @@ export function removeExercises(){
 export function getExercises(payload) {
   return { type: ADD_EXERCISES, payload: payload };
 }
+
+export function getUsers(payload) {
+  return { type: ADD_USERS, payload: payload };
+}
+
+  
+

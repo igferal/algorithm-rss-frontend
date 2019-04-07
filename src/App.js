@@ -13,6 +13,7 @@ import theme from "reapop-theme-wybo";
 import { PersistGate } from "redux-persist/integration/react";
 import { persistor } from "./store";
 import DefaultProblem from "./Components/problems/default-problem";
+import FriendsFinderComponent from "./Components/friends/FriendsFinderComponent";
 
 const App = ({ store }) => (
   <Provider store={store}>
@@ -27,6 +28,7 @@ const App = ({ store }) => (
             <Route path="/profile" component={SignUpComponent} exact={true} />
             <Route path="/login" component={LoginComponent} exact={true} />
             <Route path="/dashboard" component={DashboardComponent} exact={true} />
+            <Route path="/friends" component={FriendsFinderComponent} exact={true} />
             <Route path="/resolveExercise" component={() => <DefaultProblem game={KnapSackComponent} />} exact={true} />
             <Redirect to="/" />
           </Switch>
