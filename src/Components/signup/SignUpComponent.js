@@ -170,79 +170,85 @@ class SignUpComponent extends Component {
 
     return (
       <section className="form-container">
-        <form action="">
-          <h1>{this.state.label}</h1>
-          {this.props.state.access_token === undefined ? (
+        <form action="" className="loginForm">
+          <img src={process.env.PUBLIC_URL + "/images/account.svg"} alt="Landing pic" />
+          <div>
+            <h1>{this.state.label}</h1>
+            {this.props.state.access_token === undefined ? (
+              <Form.Item
+                hasFeedback={this.state.triedToSend}
+                validateStatus={this.state.username !== "" || !this.state.triedToSend ? "success" : "error"}
+              >
+                <Input
+                  placeholder="Nombre de usuario"
+                  prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
+                  onChange={this.onChangeUserName}
+                  value={this.state.username}
+                />
+              </Form.Item>
+            ) : (
+              ""
+            )}
+            <Form.Item hasFeedback={this.state.triedToSend} validateStatus={this.checkEmail() || !this.state.triedToSend ? "success" : "error"}>
+              <Input
+                placeholder="Email"
+                prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
+                onChange={e => this.setState({ email: e.target.value })}
+                value={this.state.email}
+              />
+            </Form.Item>
+            <Form.Item hasFeedback={this.state.triedToSend} validateStatus={this.state.name !== "" || !this.state.triedToSend ? "success" : "error"}>
+              <Input
+                placeholder="Nombre"
+                prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
+                onChange={e => this.setState({ name: e.target.value })}
+                value={this.state.name}
+              />
+            </Form.Item>
             <Form.Item
               hasFeedback={this.state.triedToSend}
-              validateStatus={this.state.username !== "" || !this.state.triedToSend ? "success" : "error"}
+              validateStatus={this.state.surname !== "" || !this.state.triedToSend ? "success" : "error"}
             >
               <Input
-                placeholder="Nombre de usuario"
+                placeholder="Apellido"
                 prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
-                onChange={this.onChangeUserName}
-                value={this.state.username}
+                onChange={e => this.setState({ surname: e.target.value })}
+                value={this.state.surname}
               />
             </Form.Item>
-          ) : (
-            ""
-          )}
-          <Form.Item hasFeedback={this.state.triedToSend} validateStatus={this.checkEmail() || !this.state.triedToSend ? "success" : "error"}>
-            <Input
-              placeholder="Email"
-              prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
-              onChange={e => this.setState({ email: e.target.value })}
-              value={this.state.email}
-            />
-          </Form.Item>
-          <Form.Item hasFeedback={this.state.triedToSend} validateStatus={this.state.name !== "" || !this.state.triedToSend ? "success" : "error"}>
-            <Input
-              placeholder="Nombre"
-              prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
-              onChange={e => this.setState({ name: e.target.value })}
-              value={this.state.name}
-            />
-          </Form.Item>
-          <Form.Item hasFeedback={this.state.triedToSend} validateStatus={this.state.surname !== "" || !this.state.triedToSend ? "success" : "error"}>
-            <Input
-              placeholder="Apellido"
-              prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
-              onChange={e => this.setState({ surname: e.target.value })}
-              value={this.state.surname}
-            />
-          </Form.Item>
-          {this.props.state.access_token === undefined ? (
-            <Form.Item validateStatus={this.validatePassword}>
-              <Input.Password
-                prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
-                placeholder="Algo que no sea 123..."
-                onChange={this.onChangePassword}
-                value={this.state.password}
-              />
-            </Form.Item>
-          ) : (
-            <>
-              <Form.Item>
+            {this.props.state.access_token === undefined ? (
+              <Form.Item validateStatus={this.validatePassword}>
                 <Input.Password
                   prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
-                  placeholder="Contraseña Actual"
-                  onChange={e => this.setState({ currentPassword: e.target.value })}
-                  value={this.state.currentPassword}
+                  placeholder="Algo que no sea 123..."
+                  onChange={this.onChangePassword}
+                  value={this.state.password}
                 />
               </Form.Item>
-              <Form.Item>
-                <Input.Password
-                  prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
-                  placeholder="Nueva Contraseña"
-                  onChange={e => this.setState({ newPassword: e.target.value })}
-                  value={this.state.newPassword}
-                />
-              </Form.Item>
-            </>
-          )}
-          <Button type="primary" onClick={this.sendForm} block>
-            {this.state.label}
-          </Button>
+            ) : (
+              <>
+                <Form.Item>
+                  <Input.Password
+                    prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
+                    placeholder="Contraseña Actual"
+                    onChange={e => this.setState({ currentPassword: e.target.value })}
+                    value={this.state.currentPassword}
+                  />
+                </Form.Item>
+                <Form.Item>
+                  <Input.Password
+                    prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
+                    placeholder="Nueva Contraseña"
+                    onChange={e => this.setState({ newPassword: e.target.value })}
+                    value={this.state.newPassword}
+                  />
+                </Form.Item>
+              </>
+            )}
+            <Button type="primary" className="btn-padding" onClick={this.sendForm}>
+              {this.state.label}
+            </Button>
+          </div>
         </form>
       </section>
     );

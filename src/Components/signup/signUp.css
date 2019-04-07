@@ -1,15 +1,39 @@
 .form-container {
   display: flex;
-  height: 100vh;
+  height: 90vh;
   width: 100vw;
   justify-content: center;
   align-items: center;
 }
 
-form{
-    height: 50vh;
-    width: 50vw;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+.loginForm {
+  width: 50vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 80vh;
+}
+
+.loginForm div {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100%;
+}
+
+.loginForm img {
+  height: 35%;
+  width: auto;
+  align-self: center;
+}
+
+.btn-padding{
+  padding: 5px 15px!important;
+}
+.hidden {
+  visibility: hidden;
+}
+
+.shown {
+  visibility: visible;
 }

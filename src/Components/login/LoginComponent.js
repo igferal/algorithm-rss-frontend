@@ -69,24 +69,27 @@ class LoginComponent extends Component {
   render() {
     return (
       <section className="form-container">
-        <form action="">
-          <h1>Iniciar sesión</h1>
-          <Input
-            placeholder="Nombre de usuario"
-            prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
-            onChange={this.onChangeUserName}
-            value={this.state.username}
-          />
-          <Input.Password
-            prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
-            placeholder="Algo que no sea 123..."
-            onChange={this.onChangePassword}
-            value={this.state.password}
-          />
+        <form className="loginForm" action="">
+          <img src={process.env.PUBLIC_URL + "/images/auth.svg"} alt="Landing pic" />
+          <div>
+            <h1>Iniciar sesión</h1>
+            <Input
+              placeholder="Nombre de usuario"
+              prefix={<Icon type="user" style={{ color: "rgba(0,0,0,.25)" }} />}
+              onChange={this.onChangeUserName}
+              value={this.state.username}
+            />
+            <Input.Password
+              prefix={<Icon type="lock" style={{ color: "rgba(0,0,0,.25)" }} />}
+              placeholder="Algo que no sea 123..."
+              onChange={this.onChangePassword}
+              value={this.state.password}
+            />
 
-          <Button type="primary" onClick={this.sendForm} block>
-            Login
-          </Button>
+            <Button type="primary" className="btn-padding" onClick={this.sendForm} block>
+              Login
+            </Button>
+          </div>
         </form>
       </section>
     );

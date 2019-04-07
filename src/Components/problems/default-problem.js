@@ -4,7 +4,6 @@ import { Button } from "antd";
 import { Wizard, Step, Controls } from "react-losen";
 import PseudocodeStep from "./steps/pseudocode";
 import InfoStep from "./steps/info";
-import ReactStars from "react-stars";
 import HeuristicStep from "./steps/heuristics"
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";

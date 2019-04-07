@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import "./landing.css";
-import image from "./landing.svg";
 import { Button } from "antd";
 
 class LandingComponent extends Component {
@@ -14,11 +13,13 @@ class LandingComponent extends Component {
             <Button type="primary" onClick={() => this.props.history.push("/login")}>
               Login
             </Button>
-            <p className="link" onClick={() => this.props.history.push("/signUp")}>Aún no tienes cuenta, registrate siguiendo este enlace</p>
+            <p className="link" onClick={() => this.props.history.push("/signUp")}>
+              Aún no tienes cuenta, registrate siguiendo este enlace
+            </p>
           </div>
         </div>
         <div className="landing-pic">
-          <img src={image} alt="Foto" />
+          <img src={process.env.PUBLIC_URL + '/images/landing.svg'} alt="Landing pic" />
         </div>
       </section>
     );

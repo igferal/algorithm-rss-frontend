@@ -2,8 +2,8 @@ import React from "react";
 
 const InfoStep = ({ props }) => (
   <div className="info">
-    <p>{props.description}</p>
     <img alt={props.name} src={props.image} />
+    <p>{props.description}</p>
   </div>
 );
 export default InfoStep;

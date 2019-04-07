@@ -7,10 +7,11 @@
 }
 
 .info {
-  display: inline-flex;
+  display: flex;
   justify-content: space-around;
   height: 80vh;
   align-items: center;
+  flex-direction: column;
 }
 
 .info p {
@@ -18,7 +19,7 @@
 }
 
 .info img {
-  width: 40%;
+  height: auto;
 }
 
 .inline {
@@ -29,8 +30,10 @@
 
 .heuristic {
   display: inline-flex;
-  justify-content: space-around;
-  width: 80%;
+  width: 100%;
+  vertical-align: middle;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .buttons {
@@ -41,19 +44,42 @@
 
 .heuristics {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: space-between;
   height: 80vh;
   align-items: center;
   width: 80%;
 }
 
+.heuristics div img {
+  height: auto;
+  width: 100%;
+}
+
 .heuristics h1 {
-  text-align: left;
+  font-size: 3em;
 }
 
 .pseudocode {
   display: flex;
   height: 80vh;
   align-items: center;
+  justify-content: space-around;
+}
+
+.pseudocode img{
+  width: 40%;
+  height: auto;
+}
+
+.options{
+
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+
+}
+
+.img-div{
+  width: 50%;
 }
