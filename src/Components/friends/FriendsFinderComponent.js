@@ -2,7 +2,8 @@ import React from "react";
 import AuthGuardedComponent from "../AuthGuardedComponent";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { Table, Divider, Tag } from "antd";
+import { Table, Divider } from "antd";
+import "./friends.css";
 
 class FriendsFinderComponent extends AuthGuardedComponent {
   componentDidMount() {
@@ -30,18 +31,32 @@ class FriendsFinderComponent extends AuthGuardedComponent {
       {
         title: "Action",
         key: "action",
-        render: (text, record) => (
-          <span>
-            <a href="javascript:;">Petición de amistad</a>
-            <Divider type="vertical" />
-            <a href="javascript:;">Delete</a>
-          </span>
-        )
+        render: user => {
+          return (
+            <span>
+              <a
+                onClick={() => {
+                  this.customAxios
+                    .get(`http://localhost:5000/addFriend/${user.id}`)
+                    .then(res => {
+                      console.log(res);
+                    })
+                    .catch(err => {
+                      console.log(err);
+                    });
+                }}
+              >
+                Petición de amistad
+              </a>
+            </span>
+          );
+        }
       }
     ];
 
     return (
-      <div>
+      <div className="container">
+        <h1>Añadir amigos</h1>
         <Table columns={columns} dataSource={Object.values(this.props.friends)} />
       </div>
     );
