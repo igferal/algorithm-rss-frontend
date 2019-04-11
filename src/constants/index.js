@@ -5,3 +5,5 @@ export const ADD_EXERCISES = "ADD_EXERCISES";
 export const REMOVE_EXERCISES = "REMOVE_EXERCISES";
 export const ADD_USERS = "ADD_USERS";
 export const REMOVE_USERS = "REMOVE_USERS";
+export const ADD_FRIEND_REQUESTS = "ADD_FRIEND_REQUESTS";
+export const ADD_FRIENDS = "ADD_FRIENDS";

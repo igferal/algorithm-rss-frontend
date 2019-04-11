@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { logoutUser, removeExercises } from "../../actions";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { getExercises, getUsers } from "../../actions";
+import { getExercises, getUsers, getFriends, getFriendRequests, removeUsers } from "../../actions";
 import customAxios from "axios";
 import "./navbar.css";
 
@@ -26,6 +26,7 @@ class NavBarComponent extends React.Component {
     this.setState({ user: {} });
     this.props.dispatch(logoutUser());
     this.props.dispatch(removeExercises());
+    this.props.dispatch(removeUsers());
     console.log(this.state);
   };
 
@@ -41,6 +42,18 @@ class NavBarComponent extends React.Component {
       .get("http://localhost:5000/users")
       .then(res => {
         this.props.dispatch(getUsers(res.data.users));
+      })
+      .catch(err => console.log(err));
+    customAxios
+      .get("http://localhost:5000/friends")
+      .then(res => {
+        this.props.dispatch(getFriends(res.data.friends));
+      })
+      .catch(err => console.log(err));
+    customAxios
+      .get("http://localhost:5000/friendRequest")
+      .then(res => {
+        this.props.dispatch(getFriendRequests(res.data.friendRequests));
       })
       .catch(err => console.log(err));
   };
@@ -76,7 +89,9 @@ class NavBarComponent extends React.Component {
         >
           <MenuItemGroup title="Amigos">
             <Menu.Item key="peticiones">
-              <Icon type="usergroup-add" /> Peticiones de amistad
+              <Link to="friendsRequests">
+                <Icon type="usergroup-add" /> Peticiones de amistad
+              </Link>
             </Menu.Item>
             <Menu.Item key="amigos">
               <Link to="/friends">

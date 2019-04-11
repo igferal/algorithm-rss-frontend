@@ -38,12 +38,12 @@ class FriendsFinderComponent extends AuthGuardedComponent {
               <a
                 onClick={() => {
                   this.customAxios
-                    .get(`http://localhost:5000/addFriend/${user.id}`)
+                    .get(`http://localhost:5000/acceptFriend/${user.id}`)
                     .then(res => {
                       this.props.dispatch(
                         notify({
                           title: "RSA",
-                          message: "Petición de amistad enviada",
+                          message: `Ahora eres amigo de ${user.name}`,
                           status: "success",
                           dismissible: true,
                           dismissAfter: 3000
@@ -51,19 +51,11 @@ class FriendsFinderComponent extends AuthGuardedComponent {
                       );
                     })
                     .catch(err => {
-                      this.props.dispatch(
-                        notify({
-                          title: "RSA",
-                          message: "Error enviando",
-                          status: "Error",
-                          dismissible: true,
-                          dismissAfter: 3000
-                        })
-                      );
+                      console.log(err);
                     });
                 }}
               >
-                Petición de amistad
+                Aceptar
               </a>
             </span>
           );
@@ -73,15 +65,15 @@ class FriendsFinderComponent extends AuthGuardedComponent {
 
     return (
       <div className="container">
-        <h1>Añadir amigos</h1>
-        <Table columns={columns} dataSource={Object.values(this.props.users)} />
+        <h1>Peticiones de Amistad</h1>
+        <Table columns={columns} dataSource={Object.values(this.props.friendsRequests)} />
       </div>
     );
   }
 }
 
 const mapStateToProps = state => {
-  return { state: state.user, users: state.users };
+  return { state: state.user, friendsRequests: state.friendRequests };
 };
 
 export default withRouter(connect(mapStateToProps)(FriendsFinderComponent));

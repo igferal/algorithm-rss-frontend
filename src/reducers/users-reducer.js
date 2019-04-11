@@ -1,8 +1,8 @@
-import {  REMOVE_USERS, ADD_FRIENDS } from "../constants";
+import { ADD_USERS, REMOVE_USERS } from "../constants";
 
-export default function friends(state = [], action) {
+export default function users(state = [], action) {
   switch (action.type) {
-    case ADD_FRIENDS:
+    case ADD_USERS:
       return { ...state, ...action.payload };
     case REMOVE_USERS:
       return [];

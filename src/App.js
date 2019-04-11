@@ -14,6 +14,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import { persistor } from "./store";
 import DefaultProblem from "./Components/problems/default-problem";
 import FriendsFinderComponent from "./Components/friends/FriendsFinderComponent";
+import FriendsRequestComponent from "./Components/friends/FriendsRequestComponent";
 
 const App = ({ store }) => (
   <Provider store={store}>
@@ -29,6 +30,8 @@ const App = ({ store }) => (
             <Route path="/login" component={LoginComponent} exact={true} />
             <Route path="/dashboard" component={DashboardComponent} exact={true} />
             <Route path="/friends" component={FriendsFinderComponent} exact={true} />
+            <Route path="/friendsRequests" component={FriendsRequestComponent} exact={true} />
+
             <Route path="/resolveExercise" component={() => <DefaultProblem game={KnapSackComponent} />} exact={true} />
             <Redirect to="/" />
           </Switch>
