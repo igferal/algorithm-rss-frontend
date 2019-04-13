@@ -1,5 +1,5 @@
 import React from "react";
-import { Menu, Icon } from "antd";
+import { Menu, Icon, Badge } from "antd";
 import { Link } from "react-router-dom";
 import { logoutUser, removeExercises } from "../../actions";
 import { connect } from "react-redux";
@@ -15,6 +15,13 @@ class NavBarComponent extends React.Component {
   state = {
     user: {}
   };
+
+  componentDidMount() {
+    let isLogged = this.props.state.access_token !== undefined;
+    if (isLogged) {
+      this.fillRedux();
+    }
+  }
 
   handleClick = e => {
     this.setState({
@@ -39,7 +46,7 @@ class NavBarComponent extends React.Component {
       })
       .catch(err => console.log(err));
     customAxios
-      .get("http://localhost:5000/users")
+      .get("http://localhost:5000/usersNotFriend")
       .then(res => {
         this.props.dispatch(getUsers(res.data.users));
       })
@@ -60,11 +67,6 @@ class NavBarComponent extends React.Component {
 
   render() {
     let isLogged = this.props.state.access_token !== undefined;
-
-    if (isLogged) {
-      this.fillRedux();
-    }
-
     return isLogged ? (
       <Menu className="header" onClick={this.handleClick} selectedKeys={[this.state.current]} mode="horizontal">
         <Menu.Item className="main" key="home">
@@ -90,7 +92,10 @@ class NavBarComponent extends React.Component {
           <MenuItemGroup title="Amigos">
             <Menu.Item key="peticiones">
               <Link to="friendsRequests">
-                <Icon type="usergroup-add" /> Peticiones de amistad
+                <Badge style={{ backgroundColor: '#52c41a' }} offset={[-30,-1]} count={Object.values(this.props.requests).length}>
+                  <Icon type="bell" theme="filled" />
+                </Badge>
+                Peticiones de amistad
               </Link>
             </Menu.Item>
             <Menu.Item key="amigos">
@@ -142,6 +147,6 @@ class NavBarComponent extends React.Component {
   }
 }
 const mapStateToProps = state => {
-  return { state: state.user };
+  return { state: state.user, requests: state.friendRequests };
 };
 export default withRouter(connect(mapStateToProps)(NavBarComponent));

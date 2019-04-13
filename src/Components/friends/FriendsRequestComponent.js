@@ -5,12 +5,62 @@ import { withRouter } from "react-router-dom";
 import { Table, Divider } from "antd";
 import "./friends.css";
 import { notify } from "reapop";
+import { getFriendRequests } from "../../actions";
 
 class FriendsFinderComponent extends AuthGuardedComponent {
   componentDidMount() {
     super.componentDidMount();
-    console.log(this.props);
+    this.updateRedux();
   }
+
+  updateRedux = () => {
+    this.customAxios
+      .get("http://localhost:5000/friendRequest")
+      .then(res => {
+        this.props.dispatch(getFriendRequests(res.data.friendRequests));
+      })
+      .catch(err => console.log(err));
+  };
+
+  acceptFriend = user => {
+    this.customAxios
+      .get(`http://localhost:5000/acceptFriend/${user.id}`)
+      .then(res => {
+        this.props.dispatch(
+          notify({
+            title: "RSA",
+            message: `Ahora eres amigo de ${user.name}`,
+            status: "success",
+            dismissible: true,
+            dismissAfter: 3000
+          })
+        );
+        this.updateRedux();
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  rejectFriend = user => {
+    this.customAxios
+      .get(`http://localhost:5000/rejectFriend/${user.id}`)
+      .then(res => {
+        this.props.dispatch(
+          notify({
+            title: "RSA",
+            message: `Petición de ${user.name} rechazada`,
+            status: "success",
+            dismissible: true,
+            dismissAfter: 3000
+          })
+        );
+        this.updateRedux();
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
 
   render() {
     const columns = [
@@ -30,33 +80,14 @@ class FriendsFinderComponent extends AuthGuardedComponent {
         key: "email"
       },
       {
-        title: "Action",
+        title: "Posibilidades",
         key: "action",
         render: user => {
           return (
             <span>
-              <a
-                onClick={() => {
-                  this.customAxios
-                    .get(`http://localhost:5000/acceptFriend/${user.id}`)
-                    .then(res => {
-                      this.props.dispatch(
-                        notify({
-                          title: "RSA",
-                          message: `Ahora eres amigo de ${user.name}`,
-                          status: "success",
-                          dismissible: true,
-                          dismissAfter: 3000
-                        })
-                      );
-                    })
-                    .catch(err => {
-                      console.log(err);
-                    });
-                }}
-              >
-                Aceptar
-              </a>
+              <a onClick={() => this.acceptFriend(user)}>Aceptar</a>
+              <Divider type="vertical" />
+              <a onClick={() => this.rejectFriend(user.id)}>Rechazar</a>
             </span>
           );
         }
@@ -65,8 +96,11 @@ class FriendsFinderComponent extends AuthGuardedComponent {
 
     return (
       <div className="container">
-        <h1>Peticiones de Amistad</h1>
-        <Table columns={columns} dataSource={Object.values(this.props.friendsRequests)} />
+        <img src={process.env.PUBLIC_URL + "/images/friends.svg"} alt="Landing pic" />
+        <section className="table-friends">
+          <h1>Peticiones de Amistad</h1>
+          <Table columns={columns} dataSource={Object.values(this.props.friendsRequests)} />
+        </section>
       </div>
     );
   }

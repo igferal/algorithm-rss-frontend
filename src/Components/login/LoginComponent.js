@@ -6,6 +6,8 @@ import { connect } from "react-redux";
 import { notify } from "reapop";
 import { withRouter } from "react-router-dom";
 import { addUser } from "../../actions";
+import { getExercises, getUsers, getFriends, getFriendRequests } from "../../actions";
+
 class LoginComponent extends Component {
   state = {
     username: "",
@@ -44,6 +46,34 @@ class LoginComponent extends Component {
     );
   };
 
+  fillRedux = async token => {
+    customAxios.defaults.headers.common = { Authorization: `Bearer ${token}` };
+    customAxios
+      .get("http://localhost:5000/exercises")
+      .then(res => {
+        this.props.dispatch(getExercises(res.data.exercises));
+      })
+      .catch(err => console.log(err));
+    customAxios
+      .get("http://localhost:5000/usersNotFriend")
+      .then(res => {
+        this.props.dispatch(getUsers(res.data.users));
+      })
+      .catch(err => console.log(err));
+    customAxios
+      .get("http://localhost:5000/friends")
+      .then(res => {
+        this.props.dispatch(getFriends(res.data.friends));
+      })
+      .catch(err => console.log(err));
+    customAxios
+      .get("http://localhost:5000/friendRequest")
+      .then(res => {
+        this.props.dispatch(getFriendRequests(res.data.friendRequests));
+      })
+      .catch(err => console.log(err));
+  };
+
   sendForm() {
     customAxios
       .post("http://localhost:5000/login", {
@@ -55,6 +85,9 @@ class LoginComponent extends Component {
           this.props.dispatch(
             addUser({ user: response.data.user, access_token: response.data.access_token, refresh_token: response.data.refresh_token })
           );
+
+          this.fillRedux(response.data.access_token);
+
           this.props.history.push("/dashboard");
         } else {
           this.showError();
