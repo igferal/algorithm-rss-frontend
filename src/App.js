@@ -31,7 +31,7 @@ const App = ({ store }) => (
             <Route path="/dashboard" component={DashboardComponent} exact={true} />
             <Route path="/friends" component={FriendsFinderComponent} exact={true} />
             <Route path="/friendsRequests" component={FriendsRequestComponent} exact={true} />
-
+            <Route path="/knap" component={KnapSackComponent} exact={true} />
             <Route path="/resolveExercise" component={() => <DefaultProblem game={KnapSackComponent} />} exact={true} />
             <Redirect to="/" />
           </Switch>
