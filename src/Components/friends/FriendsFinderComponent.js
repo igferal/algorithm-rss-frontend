@@ -22,14 +22,14 @@ class FriendsFinderComponent extends AuthGuardedComponent {
 
   updateRedux = () => {
     this.customAxios
-      .get("http://localhost:5000/usersNotFriend")
+      .get("http://156.35.98.107:5000/usersNotFriend")
       .then(res => {
         this.props.dispatch(getUsers(res.data.users));
       })
       .catch(err => console.log(err));
 
     this.customAxios
-      .get("http://localhost:5000/friends")
+      .get("http://156.35.98.107:5000/friends")
       .then(res => {
         this.props.dispatch(getFriends(res.data.friends));
       })
@@ -108,7 +108,7 @@ class FriendsFinderComponent extends AuthGuardedComponent {
 
   sendFriendshipRequest = user => {
     this.customAxios
-      .get(`http://localhost:5000/addFriend/${user.id}`)
+      .get(`http://156.35.98.107:5000/addFriend/${user.id}`)
       .then(res => {
         if (res.data.message) {
           this.props.dispatch(
@@ -130,7 +130,7 @@ class FriendsFinderComponent extends AuthGuardedComponent {
 
   removeFriendhip = user => {
     this.customAxios
-      .get(`http://localhost:5000/removeFriendship/${user.id}`)
+      .get(`http://localhost:156.35.98.107/removeFriendship/${user.id}`)
       .then(res => {
         if (res.data.message) {
           this.props.dispatch(

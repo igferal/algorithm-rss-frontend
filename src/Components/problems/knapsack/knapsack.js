@@ -47,7 +47,7 @@ class KnapSackComponent extends AuthGuardedComponent {
 
   getExerciseData = () => {
     this.customAxios
-      .put("http://localhost:5000/knapsack", { difficulty: this.state.difficulty })
+      .put("http://156.35.98.107:5000/knapsack", { difficulty: this.state.difficulty })
       .then(res =>
         this.setState({
           elements: res.data.items,
@@ -62,7 +62,7 @@ class KnapSackComponent extends AuthGuardedComponent {
     mode ? this.setState({ difficulty: true }) : this.setState({ difficulty: false });
 
     this.customAxios
-      .put("http://localhost:5000/initResolution", {
+      .put("http://156.35.98.107:5000/initResolution", {
         exercise_id: 1,
         difficulty: this.state.difficulty ? 2 : 1
       })
@@ -74,7 +74,7 @@ class KnapSackComponent extends AuthGuardedComponent {
 
   sendResolutionTime = () => {
     this.customAxios
-      .post("http://localhost:5000/endResolution", {
+      .post("http://156.35.98.107:5000/endResolution", {
         resolution_id: this.state.resolution.id
       })
       .then(res => {
@@ -118,7 +118,7 @@ class KnapSackComponent extends AuthGuardedComponent {
 
   getAnswer = currentWeight => {
     this.customAxios
-      .post("http://localhost:5000/knapsack", {
+      .post("http://156.35.98.107:5000/knapsack", {
         resolution: this.state.insideBag.map(element => this.state.elements[element]),
         elements: this.state.elements,
         bagWeight: this.state.bagSize
