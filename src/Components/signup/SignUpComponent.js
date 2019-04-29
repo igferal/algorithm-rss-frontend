@@ -82,7 +82,7 @@ class SignUpComponent extends Component {
 
   signUp = () => {
     customAxios
-      .post("http://localhost:5000/signUp", {
+      .post("http://156.35.98.107:5000/signUp", {
         username: this.state.username,
         password: this.state.password,
         email: this.state.email,
@@ -108,7 +108,7 @@ class SignUpComponent extends Component {
 
   updateUser = () => {
     customAxios
-      .post("http://localhost:5000/updateUser", {
+      .post("http://156.35.98.107:5000/updateUser", {
         username: this.state.username,
         password: this.state.currentPassword,
         newPassword: this.state.newPassword,
