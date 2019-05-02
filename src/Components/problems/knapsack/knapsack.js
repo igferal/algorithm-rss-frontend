@@ -80,7 +80,7 @@ class KnapSackComponent extends AuthGuardedComponent {
       .then(res => {
         console.log(res);
         if (res.data.resolution !== false) {
-          alert(`Has tardado ${res.data.resolution.final_time} segundos en resolver el ejercicio, looser`);
+          alert(`Has tardado ${res.data.resolution.final_time} segundos en resolver el ejercicio`);
         } else {
           this.props.dispatch(
             notify({
