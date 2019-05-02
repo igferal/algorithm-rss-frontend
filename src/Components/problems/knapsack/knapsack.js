@@ -96,19 +96,23 @@ class KnapSackComponent extends AuthGuardedComponent {
   };
 
   endExercise = () => {
-    let totalWeight = 0;
-    let totalBenefit = 0;
-    this.state.insideBag.forEach(element => {
-      totalWeight += this.state.elements[element].weight;
-      totalBenefit += this.state.elements[element].benefit;
-    });
-    if (totalWeight > this.state.bagSize) {
-      alert("Te has excedido en el peso");
-    } else {
-      let res = window.confirm("Quieres enviar la solución");
-      if (res) {
-        this.getAnswer(totalBenefit);
+    if (this.state.resolution !== {}) {
+      let totalWeight = 0;
+      let totalBenefit = 0;
+      this.state.insideBag.forEach(element => {
+        totalWeight += this.state.elements[element].weight;
+        totalBenefit += this.state.elements[element].benefit;
+      });
+      if (totalWeight > this.state.bagSize) {
+        alert("Te has excedido en el peso");
+      } else {
+        let res = window.confirm("Quieres enviar la solución");
+        if (res) {
+          this.getAnswer(totalBenefit);
+        }
       }
+    } else {
+      alert("Primero Inicia el ejercicio");
     }
   };
 
@@ -182,8 +186,8 @@ class KnapSackComponent extends AuthGuardedComponent {
           </Layer>
         </Stage>
         <div className="buttons">
-          <Button onClick={this.startExercise}> Start</Button>
-          <Button onClick={this.endExercise}> Acabar</Button>
+          <Button onClick={this.startExercise}> Iniciar ejercicio</Button>
+          <Button onClick={this.endExercise}> Acabar Ejercicio</Button>
         </div>
       </>
     );
