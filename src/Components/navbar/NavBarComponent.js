@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { logoutUser, removeExercises } from "../../actions";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
-import { getExercises, getUsers, getFriends, getFriendRequests, removeUsers } from "../../actions";
+import { getExercises, getUsers, getFriends, getFriendRequests, removeUsers, getMyRankings } from "../../actions";
 import customAxios from "axios";
 import "./navbar.css";
 
@@ -17,6 +17,7 @@ class NavBarComponent extends React.Component {
   };
 
   componentDidMount() {
+    console.log(process.env.REACT_APP_API_HOST);
     let isLogged = this.props.state.access_token !== undefined;
     if (isLogged) {
       this.fillRedux();
@@ -40,29 +41,40 @@ class NavBarComponent extends React.Component {
   fillRedux = () => {
     customAxios.defaults.headers.common = { Authorization: `Bearer ${this.props.state.access_token}` };
     customAxios
-      .get("http://156.35.98.107:5000/exercises")
+      .get(`${process.env.REACT_APP_API_HOST}/exercises`)
       .then(res => {
         this.props.dispatch(getExercises(res.data.exercises));
       })
       .catch(err => console.log(err));
     customAxios
-      .get("http://156.35.98.107:5000/usersNotFriend")
+      .get(`${process.env.REACT_APP_API_HOST}/usersNotFriend`)
       .then(res => {
         this.props.dispatch(getUsers(res.data.users));
       })
       .catch(err => console.log(err));
     customAxios
-      .get("http://156.35.98.107:5000/friends")
+      .get(`${process.env.REACT_APP_API_HOST}/friends`)
       .then(res => {
         this.props.dispatch(getFriends(res.data.friends));
       })
       .catch(err => console.log(err));
     customAxios
-      .get("http://156.35.98.107:5000/friendRequest")
+      .get(`${process.env.REACT_APP_API_HOST}/friendRequest`)
       .then(res => {
         this.props.dispatch(getFriendRequests(res.data.friendRequests));
       })
       .catch(err => console.log(err));
+      
+    customAxios
+      .get(`${process.env.REACT_APP_API_HOST}/myResolutions`)
+      .then(res => {
+        console.log(res);
+        this.props.dispatch(getMyRankings(res.data.resolutions));
+      })
+      .catch(err => {
+        console.log(err);
+        console.log("ha habido un error");
+      });
   };
 
   render() {
@@ -92,7 +104,7 @@ class NavBarComponent extends React.Component {
           <MenuItemGroup title="Amigos">
             <Menu.Item key="peticiones">
               <Link to="friendsRequests">
-                <Badge style={{ backgroundColor: '#52c41a' }} offset={[-30,-1]} count={Object.values(this.props.requests).length}>
+                <Badge style={{ backgroundColor: "#52c41a" }} offset={[-30, -1]} count={Object.values(this.props.requests).length}>
                   <Icon type="bell" theme="filled" />
                 </Badge>
                 Peticiones de amistad
@@ -106,7 +118,9 @@ class NavBarComponent extends React.Component {
           </MenuItemGroup>
           <MenuItemGroup title="Otros">
             <Menu.Item key="rankings">
-              <Icon type="line-chart" /> Rankings
+              <Link to="/myRankings">
+                <Icon type="line-chart" /> Mis Rankings
+              </Link>
             </Menu.Item>
             <Menu.Item key="profile">
               <Link to="/profile">

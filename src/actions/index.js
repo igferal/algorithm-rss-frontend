@@ -1,4 +1,4 @@
-import { ADD_USER, LOGOUT_USER, ADD_EXERCISES,REMOVE_EXERCISES ,ADD_USERS, ADD_FRIEND_REQUESTS, ADD_FRIENDS, REMOVE_USERS} from "../constants";
+import { ADD_USER, LOGOUT_USER, ADD_EXERCISES,REMOVE_EXERCISES ,ADD_USERS, ADD_FRIEND_REQUESTS, ADD_FRIENDS, REMOVE_USERS, ADD_MY_RANKINGS} from "../constants";
 import { func } from "prop-types";
 
 export function addUser(payload) {
@@ -33,6 +33,11 @@ export function getFriends(payload) {
 export function getFriendRequests(payload) {
   return { type: ADD_FRIEND_REQUESTS, payload: payload };
 }
+
+export function getMyRankings(payload) {
+  return { type: ADD_MY_RANKINGS, payload: payload };
+}
+
 
 
   

@@ -82,7 +82,7 @@ class SignUpComponent extends Component {
 
   signUp = () => {
     customAxios
-      .post("http://156.35.98.107:5000/signUp", {
+      .post(`${process.env.REACT_APP_API_HOST}/signUp`, {
         username: this.state.username,
         password: this.state.password,
         email: this.state.email,
@@ -108,7 +108,7 @@ class SignUpComponent extends Component {
 
   updateUser = () => {
     customAxios
-      .post("http://156.35.98.107:5000/updateUser", {
+      .post(`${process.env.REACT_APP_API_HOST}/updateUser`, {
         username: this.state.username,
         password: this.state.currentPassword,
         newPassword: this.state.newPassword,

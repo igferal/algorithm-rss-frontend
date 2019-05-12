@@ -3,6 +3,7 @@ import exercises from "./exercise-reducer";
 import friends from "./friends-reducer";
 import users from "./users-reducer";
 import friendRequests from "./friend-request-reducer";
+import userRankings from "./user-rankings-reducer";
 
 import user from "./user-reducer";
 import { reducer as notificationsReducer } from "reapop";
@@ -13,5 +14,6 @@ export default combineReducers({
   friends,
   users,
   friendRequests,
+  userRankings,
   notifications: notificationsReducer()
 });

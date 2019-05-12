@@ -7,3 +7,5 @@ export const ADD_USERS = "ADD_USERS";
 export const REMOVE_USERS = "REMOVE_USERS";
 export const ADD_FRIEND_REQUESTS = "ADD_FRIEND_REQUESTS";
 export const ADD_FRIENDS = "ADD_FRIENDS";
+export const ADD_MY_RANKINGS = "ADD_MY_RANKINGS";
+export const REMOVE_MY_RANKINGS = "REMOVE_MY_RANKINGS";

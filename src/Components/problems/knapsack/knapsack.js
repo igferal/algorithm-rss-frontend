@@ -47,7 +47,7 @@ class KnapSackComponent extends AuthGuardedComponent {
 
   getExerciseData = () => {
     this.customAxios
-      .put("http://156.35.98.107:5000/knapsack", { difficulty: this.state.difficulty })
+      .put(`${process.env.REACT_APP_API_HOST}/knapsack`, { difficulty: this.state.difficulty })
       .then(res =>
         this.setState({
           elements: res.data.items,
@@ -62,36 +62,13 @@ class KnapSackComponent extends AuthGuardedComponent {
     mode ? this.setState({ difficulty: true }) : this.setState({ difficulty: false });
 
     this.customAxios
-      .put("http://156.35.98.107:5000/initResolution", {
+      .put(`${process.env.REACT_APP_API_HOST}/initResolution`, {
         exercise_id: 1,
         difficulty: this.state.difficulty ? 2 : 1
       })
       .then(res => {
         this.setState({ resolution: res.data.resolution });
         this.getExerciseData();
-      });
-  };
-
-  sendResolutionTime = () => {
-    this.customAxios
-      .post("http://156.35.98.107:5000/endResolution", {
-        resolution_id: this.state.resolution.id
-      })
-      .then(res => {
-        console.log(res);
-        if (res.data.resolution !== false) {
-          alert(`Has tardado ${res.data.resolution.final_time} segundos en resolver el ejercicio`);
-        } else {
-          this.props.dispatch(
-            notify({
-              title: "RSA",
-              message: "Ya se había enviado la resolución a ese ejercicio.",
-              status: "error",
-              dismissible: true,
-              dismissAfter: 3000
-            })
-          );
-        }
       });
   };
 
@@ -122,20 +99,34 @@ class KnapSackComponent extends AuthGuardedComponent {
 
   getAnswer = currentWeight => {
     this.customAxios
-      .post("http://156.35.98.107:5000/knapsack", {
+      .post(`${process.env.REACT_APP_API_HOST}/knapsack`, {
         resolution: this.state.insideBag.map(element => this.state.elements[element]),
         elements: this.state.elements,
-        bagWeight: this.state.bagSize
+        bagWeight: this.state.bagSize,
+        resolution_id: this.state.resolution.id
       })
       .then(res => {
-        if (currentWeight === res.data.resolution) {
-          alert("Enhorabuna, has encontrado la solución correcta");
+        if (res.data.resolution !== false) {
+          if (currentWeight === res.data.resolution_value) {
+            alert("Enhorabuna, has encontrado la solución correcta");
+            alert(`Has tardado ${res.data.resolution.final_time} segundos en resolver el ejercicio`);
+          } else {
+            console.log(currentWeight);
+            console.log(res.data.resolution_value);
+            alert(`Te has quedado a ${Math.abs(res.data.resolution_value - currentWeight)} de la solución óptima`);
+            alert(`Has tardado ${res.data.resolution.final_time} segundos (sumando penalizaciones)en resolver el ejercicio`);
+          }
         } else {
-          console.log(currentWeight);
-          console.log(res.data.resolution);
-          alert(`Te has quedado a ${Math.abs(res.data.resolution - currentWeight)} de la solución óptima`);
+          this.props.dispatch(
+            notify({
+              title: "RSA",
+              message: "Ya se había enviado la resolución a ese ejercicio.",
+              status: "error",
+              dismissible: true,
+              dismissAfter: 3000
+            })
+          );
         }
-        this.sendResolutionTime();
       })
       .catch(err => console.error(err));
   };

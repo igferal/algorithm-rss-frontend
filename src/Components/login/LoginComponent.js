@@ -49,25 +49,25 @@ class LoginComponent extends Component {
   fillRedux = async token => {
     customAxios.defaults.headers.common = { Authorization: `Bearer ${token}` };
     customAxios
-      .get("http://156.35.98.107:5000/exercises")
+      .get(`${process.env.REACT_APP_API_HOST}/exercises`)
       .then(res => {
         this.props.dispatch(getExercises(res.data.exercises));
       })
       .catch(err => console.log(err));
     customAxios
-      .get("http://156.35.98.107:5000/usersNotFriend")
+      .get(`${process.env.REACT_APP_API_HOST}usersNotFriend`)
       .then(res => {
         this.props.dispatch(getUsers(res.data.users));
       })
       .catch(err => console.log(err));
     customAxios
-      .get("http://156.35.98.107:5000/friends")
+      .get(`${process.env.REACT_APP_API_HOST}/friends`)
       .then(res => {
         this.props.dispatch(getFriends(res.data.friends));
       })
       .catch(err => console.log(err));
     customAxios
-      .get("http://156.35.98.107:5000/friendRequest")
+      .get(`${process.env.REACT_APP_API_HOST}/friendRequest`)
       .then(res => {
         this.props.dispatch(getFriendRequests(res.data.friendRequests));
       })
@@ -76,7 +76,7 @@ class LoginComponent extends Component {
 
   sendForm() {
     customAxios
-      .post("http://156.35.98.107:5000/login", {
+      .post(`${process.env.REACT_APP_API_HOST}/login`, {
         username: this.state.username,
         password: this.state.password
       })

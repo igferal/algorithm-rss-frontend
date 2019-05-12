@@ -15,6 +15,8 @@ import { persistor } from "./store";
 import DefaultProblem from "./Components/problems/default-problem";
 import FriendsFinderComponent from "./Components/friends/FriendsFinderComponent";
 import FriendsRequestComponent from "./Components/friends/FriendsRequestComponent";
+import UserRankings from "./Components/rankings/UserRankings";
+import ExerciseRankings from "./Components/rankings/ExerciseRankings";
 
 const App = ({ store }) => (
   <Provider store={store}>
@@ -29,6 +31,8 @@ const App = ({ store }) => (
             <Route path="/profile" component={SignUpComponent} exact={true} />
             <Route path="/login" component={LoginComponent} exact={true} />
             <Route path="/dashboard" component={DashboardComponent} exact={true} />
+            <Route path="/myRankings" component={UserRankings} exact={true} />
+            <Route path="/exerciseRankings" component={ExerciseRankings} exact={true} />
             <Route path="/friends" component={FriendsFinderComponent} exact={true} />
             <Route path="/friendsRequests" component={FriendsRequestComponent} exact={true} />
             <Route path="/knap" component={KnapSackComponent} exact={true} />

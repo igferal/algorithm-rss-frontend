@@ -28,7 +28,7 @@ class DefaultProblem extends AuthGuardedComponent {
   render() {
     return (
       <section className="main-container">
-        <h1>Problema de La Mochila</h1>
+        <h1>{this.props.location.state.name}</h1>
         <Wizard
           render={() => (
             <>

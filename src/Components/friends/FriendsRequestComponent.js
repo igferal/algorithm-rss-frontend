@@ -15,7 +15,7 @@ class FriendsFinderComponent extends AuthGuardedComponent {
 
   updateRedux = () => {
     this.customAxios
-      .get("http://156.35.98.107:5000/friendRequest")
+      .get(`${process.env.REACT_APP_API_HOST}/friendRequest`)
       .then(res => {
         this.props.dispatch(getFriendRequests(res.data.friendRequests));
       })
@@ -24,7 +24,7 @@ class FriendsFinderComponent extends AuthGuardedComponent {
 
   acceptFriend = user => {
     this.customAxios
-      .get(`http://156.35.98.107:5000/acceptFriend/${user.id}`)
+      .get(`${process.env.REACT_APP_API_HOST}/acceptFriend/${user.id}`)
       .then(res => {
         this.props.dispatch(
           notify({
@@ -44,7 +44,7 @@ class FriendsFinderComponent extends AuthGuardedComponent {
 
   rejectFriend = user => {
     this.customAxios
-      .get(`http://156.35.98.107:5000/rejectFriend/${user.id}`)
+      .get(`${process.env.REACT_APP_API_HOST}${user.id}`)
       .then(res => {
         this.props.dispatch(
           notify({
