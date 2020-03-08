@@ -31,7 +31,10 @@ class DashboardComponent extends AuthGuardedComponent {
                     actions={[
                       <span
                         onClick={() => {
-                          const win = window.open("http://www.diku.dk/OLD/publikationer/tekniske.rapporter/1995/95-1.ps.gz", "_blank");
+                          const win = window.open(
+                            "http://www.diku.dk/OLD/publikationer/tekniske.rapporter/1995/95-1.ps.gz",
+                            "_blank"
+                          );
                           win.focus();
                         }}
                       >
@@ -71,6 +74,7 @@ class DashboardComponent extends AuthGuardedComponent {
             </>
           );
         })}
+        <div></div>
       </div>
     );
   }

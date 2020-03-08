@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@types/react-router-dom": "^4.3.1",
+    "algorithm-visualizer": "^2.3.7",
     "antd": "^3.16.1",
     "apollo-client-preset": "^1.0.8",
     "axios": "^0.18.0",
